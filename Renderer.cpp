@@ -19,6 +19,7 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 
 	//Load shaders
 	m_SolidRectShader = CompileShaders("./Shaders/SolidRect.vs", "./Shaders/SolidRect.fs");
+	m_ParticleShader = CompileShaders("./Shaders/Particle.vs", "./Shaders/Particle.fs");
 	
 	//Create VBOs
 	CreateVertexBufferObjects();
@@ -56,6 +57,20 @@ void Renderer::CreateVertexBufferObjects()
 	glGenBuffers(1, &m_VBOTest);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBOTest);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	float size = 0.05f;
+	float particles[] = {
+		-size, -size, 0.f,
+		size, size, 0.f,
+		size, -size, 0.f,
+		-size, -size, 0.f,
+		-size, size, 0.f,
+		size, size, 0.f		
+	};
+	// float* a = new float[100];
+	glGenBuffers(1, &m_ParticleVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_ParticleVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(particles), particles, GL_STATIC_DRAW);
 }
 
 void Renderer::AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType)
@@ -163,7 +178,7 @@ GLuint Renderer::CompileShaders(char* filenameVS, char* filenameFS)
 	}
 
 	glUseProgram(ShaderProgram);
-	std::cout << filenameVS << ", " << filenameFS << " Shader compiling is done.";
+	std::cout << filenameVS << ", " << filenameFS << " Shader compiling is done.\n";
 
 	return ShaderProgram;
 }
@@ -202,7 +217,28 @@ void Renderer::DrawTest()
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBOTest);
 	glVertexAttribPointer(attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
 
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+
+	glDisableVertexAttribArray(attribPosition);
+}
+
+void Renderer::DrawParticle()
+{
+	//Program select
+	GLuint shader = m_ParticleShader;
+	glUseProgram(shader);
+
+	m_ParticleTime += 0.1f;
+	GLuint uniformTime = glGetUniformLocation(shader, "u_Time");
+	glUniform1f(uniformTime, m_ParticleTime);
+	if (m_ParticleTime > 200)
+		m_ParticleTime = 0;
+
+	int attribPosition = glGetAttribLocation(shader, "a_Position");
+	glEnableVertexAttribArray(attribPosition);
+	glBindBuffer(GL_ARRAY_BUFFER, m_ParticleVBO);
+	glVertexAttribPointer(attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 	glDisableVertexAttribArray(attribPosition);
 }
