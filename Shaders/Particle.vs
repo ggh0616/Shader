@@ -6,7 +6,7 @@ uniform float u_Time = 0;
 uniform float u_Period = 0;
 
 const vec3 c_StartPos = vec3(-1, 0, 0);
-const vec3 c_Velocity = vec3(1.0, 1.0, 0);
+const vec3 c_Velocity = vec3(2.0, 0.0, 0);
 const vec3 c_ParaVelocity = vec3(2.0, 2.0, 0);
 const vec2 c_2DGravity = vec2(0, -4.9);
 
@@ -56,13 +56,41 @@ void Parabola()
 
 void Triangle()
 {   
-    float newTime = abs(fract(u_Time / u_Period) - 0.5) * 2.0; // 화면 왕복, fract() 소수점만 남기기
-    vec4 newPosition;
-
-    // 두 번째 꼭지점 이동
-    newPosition.xyz = (c_StartPosTri2 + a_Position) + c_Velocity * newTime;
-    newPosition.w = 1;
-    gl_Position = newPosition;
+	// newPosition.xyz = 
+	// (c_StartPos + a_Position) +
+	// c_Velocity * newTime;
+	// newPosition.w = 1;
+	// gl_Position = newPosition;
+	// 
+	// bool check = false;
+    // float newTime = abs(fract(u_Time / u_Period) - 0.5) * 2.0; // 화면 왕복, fract() 소수점만 남기기
+	// // if (newTime < -0.000009)
+	// // 	check = true;
+	// // if (newTime > 0.099999)
+	// // 	check = false;
+	// vec4 newPosition;
+	// if (!check) {
+	// 	newPosition.x = 
+	// 	(c_StartPos.x + a_Position.x) +
+	// 	c_Velocity.x * newTime;
+	// 	newPosition.y = 0.0;		
+	// }
+	// else if (check && newTime < 0 && newTime > -1) {
+	// 	newPosition.x = 
+	// 	(c_StartPos.x + a_Position.x) +
+	// 	c_Velocity.x * newTime;
+	// 	newPosition.y = (c_StartPos.y + a_Position.y) +
+	// 	(c_Velocity.y + 1.0f) * newTime;
+	// }
+	// else if (check && newTime > 0 && newTime < 1) {		
+	// 	newPosition.x = 
+	// 	(c_StartPos.x + a_Position.x) +
+	// 	c_Velocity.x * newTime;
+	// 	newPosition.y = (c_StartPos.y + a_Position.y) +
+	// 	(c_Velocity.y - 1.0f) * newTime;
+	// }
+	// newPosition.zw = vec2(0, 1);
+	// gl_Position = newPosition;
 }
 
 void Basic()
@@ -77,5 +105,5 @@ void main()
 	// Circle();
 	// Parabola();
 	// Triangle();
-	Basic();
+	// Basic();
 }
