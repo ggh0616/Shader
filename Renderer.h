@@ -23,6 +23,10 @@ public:
 	void DrawFSSandbox();
 	void DrawGridMesh();
 	void DrawTextureSandbox();
+	void DrawTexture(float x, float y, float sizeX, float sizeY, GLuint texID);
+	void DrawAlphaClear(float r, float g, float b, float a);
+
+	void DrawTotal();
 private:
 	void Initialize(int windowSizeX, int windowSizeY);
 	bool ReadFile(char* filename, std::string *target);
@@ -34,6 +38,8 @@ private:
 	void CreateParticleCloud(int numParticles);
 	void CreateGridMesh(int x, int y);
 	GLuint CreatePngTexture(char* filePath, GLuint samplingMethod);
+	void CreateFBOs();
+
 	bool m_Initialized = false;
 	
 	unsigned int m_WindowSizeX = 0;
@@ -69,5 +75,19 @@ private:
 
 	GLuint m_NumberTexture[10];
 	GLuint m_NumbersTexture;
+
+	GLuint m_123Texture = 0;
+
+	GLuint m_A_FBO;
+	GLuint m_A_FBOTexture0;
+	GLuint m_A_FBOTexture1;
+
+	GLuint m_TextureShader = 0;
+	GLuint m_TextureVBO;
+
+	GLuint m_ParticleTexture;
+	
+	GLuint m_FullRectVBO;
+	GLuint m_AlphaClearShader = 0;
 };
 

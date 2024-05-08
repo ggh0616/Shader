@@ -22,12 +22,40 @@ void Flag()
 	gl_Position = newPosition;
 }
 
+void Flag1()
+{
+	vec4 newPosition = vec4(a_Position, 1);
+	float scaledValue = a_Position.x + 0.5;
+	float period = 2;	// ÁÖ±â
+	float timeScale = 6;
+	float sinInput = period * scaledValue * 2 * c_PI;
+	float sinValue = sin(sinInput - u_Time * timeScale);
+	float width = 0.5 * (1 - scaledValue);	// Æø
+
+	newPosition.y = newPosition.y * width + scaledValue * width * sinValue;
+
+	v_Color = vec4((sinValue + 1) / 2);
+	gl_Position = newPosition;
+}
+
 void Circle()
 {
 	float r = 5;
 	float period = 2;
 	float timeScale = 5;
 	vec2 circleCenter = vec2(0.5, 0.5);
+
+	float newX = r * sin(a_Position.x * period);
+	float newY = r * sin(a_Position.y * period);
+
+	float newTime = fract(u_Time / timeScale);
+
+	vec4 newPosition = vec4(newX, newY, 0, 1);
+
+	vec4 CirclePosition = vec4(a_Position, 1) + newPosition * newTime;
+
+	gl_Position = CirclePosition;
+	v_Color = vec4(1);
 }
 
 void SphereMapping()
@@ -50,6 +78,6 @@ void SphereMapping()
 void main()
 {
 	// Flag();
-	// Circle();
-	SphereMapping();
+	Circle();
+	// SphereMapping();
 }

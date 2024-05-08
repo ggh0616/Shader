@@ -61,7 +61,7 @@ void p4()
 void p5()
 {
 	float tx = fract(v_TexPos.x);		// 0-1		 
-	float ty = (v_TexPos.y / 3 + (2 - floor(v_TexPos.y * 3)) / 3);	// 2/3 ~ 3/3, 1/3 ~ 2/3, 0 ~ 1/3
+	float ty = v_TexPos.y / 3 + (2 - floor(v_TexPos.y * 3)) / 3;	// 2/3 ~ 3/3, 1/3 ~ 2/3, 0 ~ 1/3
 	vec2 newTexPos = vec2(tx, ty);
 	FragColor = texture(u_TextureSampler, newTexPos);
 	// FragColor = vec4(tx, ty, 0, 1);
@@ -72,7 +72,7 @@ void p6()
 	float padding = 0.5 + u_Time;
 	float countX = 2;
 	float countY = 2;
-	float tx = fract((floor(v_TexPos.y *  countY)) * padding) + v_TexPos.x * countX;		 
+	float tx = fract(floor(v_TexPos.y * countY) * padding)+ v_TexPos.x * countX;		 
 	float ty = fract(v_TexPos.y * countY);
 	vec2 newTexPos = vec2(tx, ty);
 	FragColor = texture(u_TextureSampler, newTexPos);
@@ -94,7 +94,7 @@ void p8()
 	float xResol = 5;
 	float yResol = 2;
 	float id = 5;
-	float indexX = float(int(id) % int(xResol));
+	float indexX = float(int(id) % int(xResol));	// 0 ~ 4
 	float indexY = floor(id / xResol);
 	float tx = v_TexPos.x / xResol + indexX * (1 / xResol);	// 0~0.2			 
 	float ty = v_TexPos.y / yResol + indexY * (1 / yResol);	// 0~0.5
@@ -112,8 +112,8 @@ void main()
 	// p2();
 	// p3();
 	// p4();
-	p5();
+	// p5();
 	// p6();
-	// p7();
+	p7();
 	// p8();
 }

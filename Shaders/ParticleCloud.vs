@@ -8,7 +8,10 @@ in float a_Amp;
 in float a_Period;
 in float a_Value;
 in vec4 a_Color;
+in vec2 a_TexPos;
+
 out vec4 v_Color;
+out vec2 v_TexPos;
 
 uniform float u_Time = 0;
 uniform float u_Period = 2.0;
@@ -18,16 +21,14 @@ uniform vec2 u_AttractPos = vec2(0, 0);
 const vec3 c_StartPos = vec3(-1, 0, 0);
 const vec3 c_Velocity = vec3(2.0, 0.0, 0);
 const vec3 c_ParaVelocity = vec3(2.0, 2.0, 0);
-const vec2 c_2DGravity = vec2(0, -0.9);
+const vec2 c_2DGravity = vec2(0, -0.8);
 const float c_PI = 3.141592;
 
 void Line()
 {	
 	float newTime = abs(fract(u_Time / u_Period) - 0.5) * 2.0; // 화면 왕복, fract() 소수점만 남기기
 	vec4 newPosition;
-	newPosition.xyz = 
-	(c_StartPos + a_Position) +
-	c_Velocity * newTime;
+	newPosition.xyz = (c_StartPos + a_Position) + c_Velocity * newTime;
 	newPosition.w = 1;
 	gl_Position = newPosition;
 	v_Color = a_Color;
@@ -46,7 +47,7 @@ void Circle()
 
 void Parabola()
 {
-	float newTime = fract(u_Time / u_Period);
+	float newTime = fract(u_Time / u_Period);	// 0 ~ 1
 	float t = newTime;
 	float tt = t * t;
 	vec4 newPosition;
@@ -189,4 +190,6 @@ void main()
 	// CircleShape();
 	// CircleShapeCycle();
 	HeartShapeCycle();	
+
+	v_TexPos = a_TexPos;
 }

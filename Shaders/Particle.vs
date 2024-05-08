@@ -22,14 +22,14 @@ void Line()
 	vec4 newPosition;
 	newPosition.xyz = 
 	(c_StartPos + a_Position) +
-	c_Velocity * newTime;
+	c_Velocity * newTime * 10;
 	newPosition.w = 1;
 	gl_Position = newPosition;
 }
 
 void Circle()
 {
-	float newTime = fract(u_Time / u_Period) * c_PI * 2.0; // 시계 방향으로 돌려면 - 붙이기
+	float newTime = fract(u_Time / u_Period) * c_PI * 1.0; // 시계 방향으로 돌려면 - 붙이기
 	vec2 trans = vec2(cos(newTime), sin(newTime));
 	vec4 newPosition;
 	newPosition.xy = a_Position.xy + trans;
